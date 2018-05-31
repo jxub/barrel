@@ -24,8 +24,8 @@
     parse_revision/1, 
     encode_revisions/1, 
     parse_revisions/1, 
-    trim_history/3
-  , compare/2
+    trim_history/3,
+    compare/2
 ]).
 
 -export([make_record/1]).
@@ -177,6 +177,7 @@ make_record(Doc0) ->
     deleted => Deleted,
     hash => Hash,
     doc => Doc1}.
+
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 

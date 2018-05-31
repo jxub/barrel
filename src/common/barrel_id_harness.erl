@@ -14,10 +14,10 @@
 %%% limitations under the License.
 %%%
 
--module (barrel_id_harness).
--author ('Dietrich Featherston <d@boundary.com>').
+-module(barrel_id_harness).
+-author("Dietrich Featherston <d@boundary.com>").
 
--export ([
+-export([
   generate/1,
   generate/2,
   timed_generate/1,
