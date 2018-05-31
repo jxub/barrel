@@ -51,7 +51,7 @@
 -type prop() :: binary().
 
 -type query_options() :: #{
-  order_by := order_by_key |order_by_value,
+  order_by := order_by_key | order_by_value,
   equal_to := prop(),
   start_at := prop(),
   next_to := prop(),
@@ -111,8 +111,8 @@ save_doc1(Barrel, Doc = #{ <<"_rev">> := _Rev}) ->
 save_doc1(Barrel,  Doc)  ->
   barrel_db:write_changes(Barrel, [{create, Doc}]).
 
-%% @doc delete a document, it doesn't delete the document from the filesystem
-%% but instead create a tombstone that allows barrel to replicate a deletion.
+%% @doc delete a document. It doesn't delete the document from the filesystem
+%% but instead creates a tombstone that allows barrel to replicate a deletion.
 -spec delete_doc(Name, DocId, RevId) -> DeleteResult when
   Name :: barrel_name(),
   DocId :: barrel_doc:docid(),
@@ -123,14 +123,14 @@ delete_doc(Barrel, DocId, Rev) ->
   [Res] = barrel_db:write_changes(Barrel, [{delete, DocId, Rev}]),
   Res.
 
-%% @doc delete a document from the filesystem. This delete completely
-%% document locally. The deletion won't be replicated and will not crete an event.
+%% @doc delete a document from the filesystem. This deletes completely the
+%% local document but the deletion won't be replicated and will not create an event.
 -spec purge_doc(Name :: barrel_name(), DocId :: barrel_doc:docid()) -> ok | {error, term()}.
 purge_doc(Barrel, DocId) ->
   [Res] = barrel_db:write_changes(Barrel, [{purge, DocId}]),
   Res.
 
-%% @doc likee save_doc but create or replace multiple docs at once.
+%% @doc similar to save_doc but create or replace multiple docs at once.
 -spec save_docs(Name, Docs) -> SaveResults when
   Name :: barrel_name(),
   Docs :: [barrel_doc:doc()],
@@ -149,7 +149,7 @@ save_docs(Barrel, Docs) ->
   ),
   barrel_db:write_changes(Barrel, Batch).
 
-%% @doc delete multiple docs
+%% @doc delete multiple documents from the database and replicates the event.
 -spec delete_docs(Name, DocsOrDocsRevId) -> SaveResults when
   Name :: barrel_name(),
   DocsOrDocsRevId :: [ barrel_doc:doc() | {barrel_doc:docid(), barrel_doc:revid()}],
